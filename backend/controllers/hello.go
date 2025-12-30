@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/Shanmukh1609/backend/models"
@@ -22,7 +23,7 @@ func HandleCookie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Explicitly allow your React frontend and allow credentials
-	w.Header().Set("Access-Control-Allow-Origin", "https://connect-four-emittr.vercel.app/")
+	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("FRONTEND_URL"))
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	playerName := r.URL.Query().Get("playerName")
@@ -58,7 +59,7 @@ func LeaderBoard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "https://connect-four-emittr.vercel.app/")
+	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("FRONTEND_URL"))
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	playerName := r.URL.Query().Get("playerName")
@@ -66,10 +67,10 @@ func LeaderBoard(w http.ResponseWriter, r *http.Request) {
 
 	// 1. Use Query instead of Exec to retrieve data
 	query := `SELECT username, outcome, played_at FROM game_results WHERE username=$1`
-	
+
 	rows, err := models.DB.Query(query, playerName)
 	if err != nil {
-		fmt.Println("jk",err);
+		fmt.Println("jk", err)
 		http.Error(w, "Database error", http.StatusInternalServerError)
 		return
 	}
@@ -78,7 +79,7 @@ func LeaderBoard(w http.ResponseWriter, r *http.Request) {
 	var results []models.GameResult
 
 	// 2. Loop through results and scan into struct
-	fmt.Println(rows);
+	fmt.Println(rows)
 
 	for rows.Next() {
 		var res models.GameResult
@@ -96,5 +97,5 @@ func LeaderBoard(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	// 4. Encode the slice directly to the ResponseWriter
-	json.NewEncoder(w).Encode(results);
+	json.NewEncoder(w).Encode(results)
 }
