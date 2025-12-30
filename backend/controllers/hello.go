@@ -49,6 +49,10 @@ func HandleCookie(w http.ResponseWriter, r *http.Request) {
 		userId = cookie.Value
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+
 	// Return the ID in JSON as a fallback in case JS still can't read the cookie
 	json.NewEncoder(w).Encode(map[string]string{"userId": userId})
 }
