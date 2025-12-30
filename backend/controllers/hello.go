@@ -24,7 +24,9 @@ func HandleCookie(w http.ResponseWriter, r *http.Request) {
 	}
 	// Explicitly allow your React frontend and allow credentials
 	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("FRONTEND_URL"))
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
+    w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	playerName := r.URL.Query().Get("playerName")
 	fmt.Printf("Generating cookie for player: %s\n", playerName)
