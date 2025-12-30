@@ -22,7 +22,7 @@ func HandleCookie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Explicitly allow your React frontend and allow credentials
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://connect-four-emittr.vercel.app/")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	playerName := r.URL.Query().Get("playerName")
@@ -58,7 +58,7 @@ func LeaderBoard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "https://connect-four-emittr.vercel.app/")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	playerName := r.URL.Query().Get("playerName")
